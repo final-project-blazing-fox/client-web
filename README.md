@@ -1,5 +1,5 @@
-![GitHub issues](https://img.shields.io/github/issues-raw/final-project-blazing-fox/user-profile-service)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/final-project-blazing-fox/user-profile-service)
+![GitHub issues](https://img.shields.io/github/issues-raw/final-project-blazing-fox/client-web)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/final-project-blazing-fox/client-web)
 
 # Getting Started with Create React App
 
