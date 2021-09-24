@@ -1,9 +1,7 @@
+import Home from "./pages/Home";
+
 function App() {
-  return (
-    <div className="text-5xl bg-gray-200 h-screen w-screen">
-      <p className="text-2xl">My app</p>
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
