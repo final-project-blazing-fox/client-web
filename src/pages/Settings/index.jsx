@@ -1,14 +1,14 @@
 import Container from "../../components/Container";
 import Sidebar from "../../components/Sidebar";
-import Content from "./Content";
+import Settings from "./Settings";
 
-function Home() {
+function index() {
   return (
     <Container>
       <Sidebar />
-      <Content />
+      <Settings />
     </Container>
   );
 }
 
-export default Home;
+export default index;
