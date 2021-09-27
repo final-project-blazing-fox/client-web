@@ -1,5 +1,6 @@
 import Title from "../../components/Title";
 import { BiImageAdd } from "react-icons/bi";
+import Image from "../../components/Image";
 
 function Settings() {
   return (
@@ -36,6 +37,8 @@ function Settings() {
             <BiImageAdd size={30} />
             <span className="text-black">Upload Images</span>
           </div>
+          <Image url="https://i.stack.imgur.com/AZUmQ.jpg" />
+          <Image url="https://i.stack.imgur.com/AZUmQ.jpg" />
         </div>
       </div>
     </div>

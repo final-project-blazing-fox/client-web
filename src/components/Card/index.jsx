@@ -1,18 +1,12 @@
 import { FaHeart } from "react-icons/fa";
+import Image from "../Image";
 
 function Card({ role, color = "text-gray-400" }) {
   return (
     <div className="w-full">
-      <div className="bg-light-gray rounded-lg">
-        <div
-          className="bg-origin-border aspect-w-4 aspect-h-3 w-full bg-contain bg-no-repeat bg-center"
-          style={{
-            backgroundImage: "url(https://i.stack.imgur.com/AZUmQ.jpg)",
-          }}
-        ></div>
-      </div>
+      <Image url="https://i.stack.imgur.com/AZUmQ.jpg" />
       <div
-        class="grid grid-cols-2 gap-2"
+        className="grid grid-cols-2 gap-2"
         style={{ gridTemplateColumns: "80% 1fr" }}
       >
         <div className="border-2 border-custom-green bg-white rounded-lg p-2 mt-2 text-center cursor-pointer hover:bg-gray-300">
