@@ -1,16 +1,28 @@
 import { FaCompass, FaCog } from "react-icons/fa";
+import { ImExit } from "react-icons/im";
+import { Link } from "react-router-dom";
 
 function Menu() {
   return (
     <>
-      <div className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100">
+      <Link
+        to="/"
+        className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100"
+      >
         <FaCompass />
         <span>Discover</span>
-      </div>
-      <div className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100">
+      </Link>
+      <Link
+        to="/settings"
+        className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100"
+      >
         <FaCog />
         <span>Settings</span>
-      </div>
+      </Link>
+      <button className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100">
+        <ImExit />
+        Log out
+      </button>
     </>
   );
 }
