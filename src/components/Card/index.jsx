@@ -9,7 +9,7 @@ function Card({ role }) {
           }}
         ></div>
       </div>
-      <div className="border-2 border-custom-green bg-white rounded-lg p-2 mt-2 text-center">
+      <div className="border-2 border-custom-green bg-white rounded-lg p-2 mt-2 text-center cursor-pointer hover:bg-gray-300">
         <p className="text-2xl text-custom-gray">Budi</p>
         <p className="text-light-gray">{role}</p>
       </div>
