@@ -1,8 +1,8 @@
 import Card from "../../components/Card";
 import SearchBox from "../../components/SearchBox";
-import Title from "./Title";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Title from "../../components/Title";
 
 function Content() {
   const [users, setUsers] = useState([]);
@@ -24,7 +24,7 @@ function Content() {
   return (
     <div>
       <div className="flex justify-between p-7">
-        <Title />
+        <Title name="Find a Coder" />
         <SearchBox />
       </div>
       <hr className="mx-7 my-2" />

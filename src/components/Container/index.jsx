@@ -1,4 +1,4 @@
-function MainContainer({ children }) {
+function Container({ children }) {
   return (
     <div
       className="h-screen w-screen font-poppins grid grid-cols-2"
@@ -9,4 +9,4 @@ function MainContainer({ children }) {
   );
 }
 
-export default MainContainer;
+export default Container;
