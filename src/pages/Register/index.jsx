@@ -37,10 +37,10 @@ function Register() {
     );
   }
   return (
-    <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins my-16">
+    <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins  bg-custom-gray lg:bg-white">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-1/3 bg-custom-gray rounded-md py-5"
+        className="w-full lg:w-1/3 bg-custom-gray rounded-md py-5 lg:mt-16"
       >
         <Title />
         <div className="px-10 mt-10 w-full">
@@ -135,7 +135,7 @@ function Register() {
             <span className="text-red-500">Password is required</span>
           )}
         </div>
-        <div className="px-10 mt-10 mb-5 w-full">
+        <div className="px-10 lg:mt-10 mb-5 w-full">
           <input
             type="submit"
             value="Login"
