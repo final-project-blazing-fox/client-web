@@ -16,10 +16,10 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins">
+    <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins bg-custom-gray lg:bg-white">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-1/3 bg-custom-gray rounded-md py-5"
+        className="w-full lg:w-1/3 bg-custom-gray rounded-md py-5"
       >
         <Title />
         <div className="px-10 mt-10 w-full">

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 
-function CreatePostContainer() {
+function CreatePostContainer({ className }) {
   return (
-    <div className="bg-light-gray w-full rounded-md p-4 mt-6 mb-2">
+    <div
+      className={`${className} bg-light-gray w-full rounded-md p-4 mt-6 mb-2`}
+    >
       {/* Name and status */}
       <div className="flex flex-col">
         <Link

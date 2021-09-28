@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/404";
 import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Chatting from "./pages/Chatting";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route exact path="/settings">
           <Settings />
+        </Route>
+        <Route exact path="/chat">
+          <Chatting />
         </Route>
         <Route path="*">
           <NotFound />
