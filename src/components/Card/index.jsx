@@ -7,7 +7,13 @@ function Card({
   main_card_showoff,
   portfolio_link,
   social_media_link,
+  id,
+  onLike,
 }) {
+  const handleLike = (id) => {
+    onLike(id);
+  };
+
   return (
     <div className="w-full">
       <div className="bg-light-gray rounded-lg">
@@ -31,6 +37,7 @@ function Card({
         </div>
         <div
           className={`border-2 border-pink-300 cursor-pointer hover:bg-pink-300 ${color} rounded-md flex justify-center items-center p-4 mt-2`}
+          onClick={() => handleLike(id)}
         >
           <FaHeart size={30} />
         </div>
