@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Title from "../../components/Sidebar/Title";
 import Register from "./RegisterBox";
 import validateEmail from "../../utils/validateEmail";
+import axios from "axios";
 
 function Login() {
   const {
@@ -11,10 +12,22 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (inputs) => {
-    console.log(inputs);
+  const onSubmit = async (inputs) => {
+    await axios({
+      url: "https://final-project-user-profile.herokuapp.com/login",
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: inputs,
+    })
+      .then(({ data }) => {
+        localStorage.setItem("access_token", data.access_token);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
   return (
     <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins bg-custom-gray lg:bg-white">
       <form
