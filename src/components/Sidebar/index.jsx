@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainContainer from "./MainContainer";
 import Title from "./Title";
 import CreatePostContainer from "./CreatePostContainer";
 import Menu from "./Menu";
 import { GiHamburgerMenu } from "react-icons/gi";
+import axios from "axios";
 
 function Sidebar() {
   const [showMenu, setShowMenu] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://final-project-user-profile.herokuapp.com/user", {
+        method: "GET",
+        headers: {
+          access_token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
+        },
+      })
+      .then((results) => {
+        setUsers(results.data);
+      });
+  }, []);
 
   const menuHandler = () => {
     setShowMenu(!showMenu);
@@ -30,17 +46,18 @@ function Sidebar() {
       >
         <p className="text-xl text-gray-500">Chat</p>
         {/* template */}
-        <div className="cursor-pointer mt-2 hover:text-gray-50">
-          <Link to="/chat">Rangga</Link>
-        </div>
-        <div className="cursor-pointer mt-2 hover:text-gray-50">
-          <Link to="/chat">Abdul</Link>
-        </div>
-        <div className="cursor-pointer mt-2 hover:text-gray-50">
-          <Link to="/chat">Arip</Link>
-        </div>
-        <div className="cursor-pointer mt-2 hover:text-gray-50">
-          <Link to="/chat">Viki</Link>
+        <div>
+          {localStorage.matches?.split(",").map((matchId) => {
+            let matchedUser = users?.filter((user) => +user.id === +matchId)[0];
+            return (
+              <div
+                key={matchedUser?.id}
+                className="cursor-pointer mt-2 hover:text-gray-50"
+              >
+                <Link to="/chat">{matchedUser?.full_name}</Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </MainContainer>
