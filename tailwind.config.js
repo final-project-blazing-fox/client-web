@@ -11,6 +11,10 @@ module.exports = {
         "light-gray": "#393E46",
         "custom-green": "#00ADB5",
       },
+      gridTemplateColumns: {
+        desktop: "20% 1fr",
+        settings: "30% 1fr",
+      },
     },
   },
   variants: {

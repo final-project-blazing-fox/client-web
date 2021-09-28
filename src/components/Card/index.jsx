@@ -1,4 +1,5 @@
 import { FaHeart } from "react-icons/fa";
+import Image from "../Image";
 
 function Card({
   role,
@@ -21,7 +22,7 @@ function Card({
           {role === "coder" ? (
             <video controls="controls" src={main_card_showoff} />
           ) : (
-            <img src={main_card_showoff} alt="main card showoff" />
+            <Image url={main_card_showoff} />
           )}
         </div>
       </div>
