@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import Title from "../../components/Sidebar/Title";
 import LoginBox from "./LoginBox";
 import validateEmail from "../../utils/validateEmail";
+import axios from "axios";
+import { Redirect } from "react-router";
 
 function Register() {
   const {
@@ -10,11 +12,30 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const onSubmit = (inputs) => {
-    console.log(inputs);
+  let successRegister = false;
+  const onSubmit = async (inputs) => {
+    await axios({
+      url: "https://final-project-user-profile.herokuapp.com/register",
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: inputs,
+    })
+      .then(() => {
+        successRegister = true;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
+  if (successRegister) {
+    return (
+      <>
+        <Redirect to="/login" />
+      </>
+    );
+  }
   return (
     <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins my-16">
       <form
@@ -43,20 +64,20 @@ function Register() {
         </div>
 
         <div className="px-10 mt-10 w-full">
-          <label htmlFor="fullName" className="text-white">
+          <label htmlFor="full_name" className="text-white">
             Full Name
           </label>
           <br />
           <input
             type="text"
-            {...register("fullName", {
+            {...register("full_name", {
               required: true,
             })}
-            name="fullName"
-            id="fullName"
+            name="full_name"
+            id="full_name"
             className="outline-none bg-custom-gray text-white border-b-2 border-b-white py-2 w-full"
           />
-          {errors.fullName && (
+          {errors.full_name && (
             <span className="text-red-500">Full Name is required</span>
           )}
         </div>
@@ -80,20 +101,20 @@ function Register() {
         </div>
 
         <div className="px-10 mt-10 w-full">
-          <label htmlFor="birthDate" className="text-white">
+          <label htmlFor="birth_date" className="text-white">
             Birth Date
           </label>
           <br />
           <input
             type="date"
-            {...register("birthDate", {
+            {...register("birth_date", {
               required: true,
             })}
-            name="birthDate"
-            id="birthDate"
+            name="birth_date"
+            id="birth_date"
             className="outline-none bg-custom-gray text-white border-b-2 border-b-white py-2 w-full"
           />
-          {errors.birthDate && (
+          {errors.birth_date && (
             <span className="text-red-500">Birth Date is required</span>
           )}
         </div>
