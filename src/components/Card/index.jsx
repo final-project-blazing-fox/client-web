@@ -27,14 +27,14 @@ function Card({
         </div>
       </div>
       <div
-        className="grid grid-cols-2 gap-2"
+        className="flex flex-col lg:grid lg:grid-cols-2 gap-2"
         style={{ gridTemplateColumns: "80% 1fr" }}
       >
         <div className="border-2 border-custom-green bg-white rounded-lg p-2 mt-2 text-center cursor-pointer hover:bg-gray-300">
-          <p className="text-2xl text-custom-gray">{full_name}</p>
-          <p className="text-light-gray">{role}</p>
-          <p className="text-light-gray">{portfolio_link}</p>
-          <p className="text-light-gray">{social_media_link}</p>
+          <p className="text-2xl text-custom-gray truncate">{full_name}</p>
+          <p className="text-light-gray truncate">{role}</p>
+          <p className="text-light-gray truncate">{portfolio_link}</p>
+          <p className="text-light-gray truncate">{social_media_link}</p>
         </div>
         <div
           className={`border-2 border-pink-300 cursor-pointer hover:bg-pink-300 ${color} rounded-md flex justify-center items-center p-4 mt-2`}

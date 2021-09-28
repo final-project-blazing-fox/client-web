@@ -21,11 +21,11 @@ function Sidebar() {
           <GiHamburgerMenu className="text-white lg:hidden" size={32} />
         </div>
       </div>
-      <CreatePostContainer className={`${showMenu && "hidden"} lg:block`} />
-      <Menu className={`${showMenu && "hidden"} lg:block`} />
+      <CreatePostContainer className={`${!showMenu && "hidden"} lg:block`} />
+      <Menu className={`${!showMenu && "hidden"} lg:block`} />
       <div
         className={`${
-          showMenu && "hidden"
+          !showMenu && "hidden"
         } lg:flex flex-col items-start justify-start text-gray-300 mt-5 border-t-2 border-gray-300 w-full pt-5`}
       >
         <p className="text-xl text-gray-500">Chat</p>
