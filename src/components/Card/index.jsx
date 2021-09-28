@@ -4,6 +4,7 @@ import Image from "../Image";
 function Card({
   role,
   color = "text-gray-400",
+  onClickFav,
   full_name,
   main_card_showoff,
   portfolio_link,
@@ -12,6 +13,7 @@ function Card({
   onLike,
 }) {
   const handleLike = (id) => {
+    onClickFav(id);
     onLike(id);
   };
 
@@ -53,7 +55,7 @@ function Card({
           </div>
         </div>
         <div
-          className={`border-2 border-pink-300 cursor-pointer hover:bg-pink-300 ${color} rounded-md flex justify-center items-center p-4 mt-2`}
+          className={`border-2 border-pink-300 cursor-pointer hover:text-pink-400 ${color} rounded-md flex justify-center items-center p-4 mt-2`}
           onClick={() => handleLike(id)}
         >
           <FaHeart size={30} />

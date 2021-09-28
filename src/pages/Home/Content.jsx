@@ -60,6 +60,11 @@ function Content() {
       });
   }, []);
 
+  const onClickFav = (userId) => {
+    const newUsers = users.filter((user) => user.id !== userId);
+    setUsers(newUsers);
+  };
+
   return (
     <div>
       <div className="flex justify-between p-7">
@@ -72,6 +77,7 @@ function Content() {
           return (
             <Card
               key={user.id}
+              onClickFav={onClickFav}
               full_name={user.full_name}
               main_card_showoff={user.main_card_showoff}
               portfolio_link={user.portfolio_link}
