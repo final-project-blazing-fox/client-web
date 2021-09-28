@@ -2,9 +2,9 @@ import { FaCompass, FaCog } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import { Link } from "react-router-dom";
 
-function Menu() {
+function Menu({ className }) {
   return (
-    <>
+    <div className={`${className} self-start`}>
       <Link
         to="/"
         className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100"
@@ -23,7 +23,7 @@ function Menu() {
         <ImExit />
         Log out
       </button>
-    </>
+    </div>
   );
 }
 
