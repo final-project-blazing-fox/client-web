@@ -6,8 +6,6 @@ import CreatePostContainer from "./CreatePostContainer";
 import Menu from "./Menu";
 import { GiHamburgerMenu } from "react-icons/gi";
 import firebase from "firebase";
-import { useEffect } from "react";
-import axios from "axios";
 
 function Sidebar() {
   const userdata = localStorage.firebase_user
@@ -15,21 +13,19 @@ function Sidebar() {
     : 1;
   const [onlineUser, setOnlineUser] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([])
 
-  useEffect(() => {
-    axios
-      .get("https://final-project-user-profile.herokuapp.com/user", {
-        method: "GET",
-        headers: {
-          access_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
-        },
-      })
-      .then((results) => {
-        setUsers(results.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${baseUrl}/user`, {
+  //       headers: {
+  //         access_token: JSON.parse(localStorage.getItem('user')).access_token,
+  //       },
+  //     })
+  //     .then((results) => {
+  //       setUsers(results.data)
+  //     })
+  // }, [])
 
   const menuHandler = () => {
     setShowMenu(!showMenu);
@@ -50,7 +46,7 @@ function Sidebar() {
     });
   }, []);
 
-  const arrlocal = localStorage.matches ? localStorage.matches : 0;
+  const arrlocal = localStorage.matches ? localStorage.matches : [];
 
   const matchUser = onlineUser.filter((user) =>
     arrlocal.includes(user.localID)

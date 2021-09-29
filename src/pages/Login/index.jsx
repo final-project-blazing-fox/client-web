@@ -6,6 +6,16 @@ import validateEmail from "../../utils/validateEmail";
 import axios from "axios";
 import firebase from "firebase";
 import { useState } from "react";
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+
+// CALL IT ONCE IN YOUR APP
+if (typeof window !== "undefined") {
+  injectStyle();
+}
+
+const baseUrl = "https://final-project-user-profile.herokuapp.com";
 
 function Login() {
   const {
@@ -14,83 +24,68 @@ function Login() {
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   const db = firebase.firestore();
   const [userFirebaseCheck, setUserFirebaseCheck] = useState(false);
   const [user, setUser] = useState({});
 
   const onSubmit = async (inputs) => {
-    await axios({
-      url: "https://final-project-user-profile.herokuapp.com/login",
+    const { data } = await axios({
+      url: baseUrl + "/login",
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       data: inputs,
-    })
-      .then(({ data }) => {
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("uid", data.id);
-        localStorage.setItem("matches", 0);
-        setUser(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    });
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("uid", data.id);
+    setUser(data);
 
-    await firebase
-      .auth()
-      .signInWithEmailAndPassword(inputs.email, inputs.password)
-      .then((data) => {
-        console.log(data.user.uid);
-        db.collection("users")
-          .doc(data.user.uid)
-          .update({
-            isOnline: true,
-          })
-          .then(() => {
-            const loggedInUser = {
-              fullName: user.full_name,
-              uid: data.user.uid,
-              email: user.email,
-            };
-
-            localStorage.setItem("firebase_user", JSON.stringify(loggedInUser));
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setUserFirebaseCheck(true);
-      });
-
-    if (userFirebaseCheck) {
-      await firebase
+    try {
+      const firebaseData = await firebase
         .auth()
-        .createUserWithEmailAndPassword(inputs.email, inputs.password)
-        .then((data) => {
-          db.collection("users")
-            .doc(data.user.uid)
-            .set({
-              fullName: user.full_name,
-              uid: data.user.uid,
-              localID: user.id,
-              createdAt: new Date(),
-              isOnline: true,
-            })
-            .then(() => {
-              const loggedInUser = {
-                fullName: user.full_name,
-                uid: data.user.uid,
-                email: user.email,
-              };
+        .signInWithEmailAndPassword(inputs.email, inputs.password);
 
-              localStorage.setItem(
-                "firebase_user",
-                JSON.stringify(loggedInUser)
-              );
-            });
+      await db.collection("users").doc(firebaseData.user.uid).update({
+        isOnline: true,
+      });
+
+      const loggedInUser = {
+        fullName: data.full_name,
+        uid: firebaseData.user.uid,
+        email: data.email,
+      };
+
+      localStorage.setItem("firebase_user", JSON.stringify(loggedInUser));
+    } catch (err) {
+      if (err.code === "auth/user-not-found") {
+        console.error(err);
+        const firebaseData = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(inputs.email, inputs.password);
+
+        db.collection("users").doc(firebaseData.user.uid).set({
+          fullName: data.full_name,
+          uid: firebaseData.user.uid,
+          localID: data.id,
+          createdAt: new Date(),
+          isOnline: true,
         });
+        const loggedInUser = {
+          fullName: data.full_name,
+          uid: firebaseData.user.uid,
+          email: data.email,
+        };
+        localStorage.setItem("firebase_user", JSON.stringify(loggedInUser));
+        toast.dark("Please try again...");
+      }
     }
+    history.push("/");
   };
+
   return (
     <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins bg-custom-gray lg:bg-white">
       <form
@@ -142,6 +137,7 @@ function Login() {
         </div>
       </form>
       <Register />
+      <ToastContainer />
     </div>
   );
 }
