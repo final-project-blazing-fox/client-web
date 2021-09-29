@@ -37,6 +37,7 @@ function Content() {
           })
           .then((results) => {
             console.log(results.data.body);
+            localStorage.setItem("matches", results.data.body.matches);
           });
       });
     };
