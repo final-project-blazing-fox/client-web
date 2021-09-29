@@ -4,6 +4,8 @@ import Title from "../../components/Sidebar/Title";
 import Register from "./RegisterBox";
 import validateEmail from "../../utils/validateEmail";
 import axios from "axios";
+import firebase from "firebase";
+import { useState } from "react";
 
 function Login() {
   const {
@@ -11,6 +13,10 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const db = firebase.firestore();
+  const [userFirebaseCheck, setUserFirebaseCheck] = useState(false);
+  const [user, setUser] = useState({});
 
   const onSubmit = async (inputs) => {
     await axios({
@@ -23,10 +29,66 @@ function Login() {
     })
       .then(({ data }) => {
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("uid", data.id);
+        setUser(data);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(inputs.email, inputs.password)
+      .then((data) => {
+        console.log(data.user.uid);
+        db.collection("users")
+          .doc(data.user.uid)
+          .update({
+            isOnline: true,
+          })
+          .then(() => {
+            const loggedInUser = {
+              fullName: user.full_name,
+              uid: data.user.uid,
+              email: user.email,
+            };
+
+            localStorage.setItem("firebase_user", JSON.stringify(loggedInUser));
+          });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setUserFirebaseCheck(true);
+      });
+
+    if (userFirebaseCheck) {
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(inputs.email, inputs.password)
+        .then((data) => {
+          db.collection("users")
+            .doc(data.user.uid)
+            .set({
+              fullName: user.full_name,
+              uid: data.user.uid,
+              localID: user.id,
+              createdAt: new Date(),
+              isOnline: true,
+            })
+            .then(() => {
+              const loggedInUser = {
+                fullName: user.full_name,
+                uid: data.user.uid,
+                email: user.email,
+              };
+
+              localStorage.setItem(
+                "firebase_user",
+                JSON.stringify(loggedInUser)
+              );
+            });
+        });
+    }
   };
   return (
     <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins bg-custom-gray lg:bg-white">
