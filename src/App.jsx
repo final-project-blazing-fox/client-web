@@ -6,6 +6,7 @@ import NotFound from "./pages/404";
 import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Chatting from "./pages/Chatting";
+import PaymentSuccess from "./pages/User/PaymentSuccess";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route exact path="/register-premium">
           <RegisterPremium />
+        </Route>
+        <Route exact path="/payment-success">
+          <PaymentSuccess />
         </Route>
         <Route exact path="/settings">
           <Settings />
