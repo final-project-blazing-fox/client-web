@@ -1,4 +1,5 @@
 import { FaHeart, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FcDribbble } from "react-icons/fc";
 import Image from "../Image";
 
 function Card({
@@ -11,6 +12,7 @@ function Card({
   social_media_link,
   id,
   onLike,
+  isPremium,
 }) {
   const handleLike = (id) => {
     onClickFav(id);
@@ -42,13 +44,19 @@ function Card({
               rel="noreferrer"
               className="text-gray-600 hover:text-black"
             >
-              <FaGithub size={32} />
+              {role === "coder" ? (
+                <FaGithub size={32} />
+              ) : (
+                <FcDribbble size={32} />
+              )}
             </a>
             <a
               href={social_media_link}
               target="_blank"
               rel="noreferrer"
-              className="text-gray-600 hover:text-blue-600"
+              className={`text-gray-600 hover:text-blue-600 ${
+                !isPremium && "hidden"
+              }`}
             >
               <FaLinkedin size={32} />
             </a>

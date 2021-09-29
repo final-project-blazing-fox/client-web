@@ -56,30 +56,39 @@ function Chatting() {
 
   return (
     <>
-      <div style={{ margin: "30px" }}>
-        {chatUser
-          ? chatUser.map((chat, index) => (
-              <div
-                key={index}
-                style={{
-                  textAlign:
-                    chat.user_uid_1 === userdata.uid ? "right" : "left",
-                }}
-              >
-                <p className="messageStyle">{chat.message}</p>
-              </div>
-            ))
-          : null}
-        <textarea
-          style={{ border: "1px solid black" }}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write Message"
-        />
-        <br />
-        <button onClick={submitMessage} style={{ border: "1px solid black" }}>
-          Send
-        </button>
+      <div className="flex flex-col m-3 h-screen">
+        <div className="overflow-auto mb-4 py-2" style={{ height: "70%" }}>
+          {chatUser
+            ? chatUser.map((chat, index) => (
+                <div
+                  key={index}
+                  style={{
+                    textAlign:
+                      chat.user_uid_1 === userdata.uid ? "right" : "left",
+                  }}
+                >
+                  <p className="messageStyle bg-custom-green rounded-xl mb-2 px-4 py-1 text-white inline-block">
+                    {chat.message}
+                  </p>
+                </div>
+              ))
+            : null}
+        </div>
+        <div>
+          <textarea
+            className="w-full border-2 border-custom-gray rounded-md p-2"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Write Message"
+          />
+          <br />
+          <button
+            onClick={submitMessage}
+            className="px-8 py-2 bg-blue-400 rounded-md text-white w-full"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </>
   );

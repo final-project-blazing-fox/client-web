@@ -4,7 +4,16 @@ import Title from "../../components/Sidebar/Title";
 import LoginBox from "./LoginBox";
 import validateEmail from "../../utils/validateEmail";
 import axios from "axios";
-import { Redirect } from "react-router";
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { ToastContainer, toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+
+// CALL IT ONCE IN YOUR APP
+if (typeof window !== "undefined") {
+  injectStyle();
+}
+
+const baseUrl = "https://final-project-user-profile.herokuapp.com";
 
 function Register() {
   const {
@@ -12,10 +21,11 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  let successRegister = false;
+
+  const history = useHistory();
   const onSubmit = async (inputs) => {
     await axios({
-      url: "https://final-project-user-profile.herokuapp.com/register",
+      url: baseUrl + "/register",
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -23,24 +33,18 @@ function Register() {
       data: inputs,
     })
       .then(() => {
-        successRegister = true;
+        history.push("/login");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((_) => {
+        toast.dark("Please try again...");
       });
   };
-  if (successRegister) {
-    return (
-      <>
-        <Redirect to="/login" />
-      </>
-    );
-  }
+
   return (
-    <div className="flex flex-col gap-3 h-screen justify-center items-center font-poppins  bg-custom-gray lg:bg-white">
+    <div className="flex flex-col lg:gap-3 h-screen justify-center items-center font-poppins  bg-custom-gray lg:bg-white">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full lg:w-1/3 bg-custom-gray rounded-md py-5 lg:mt-16"
+        className="w-full lg:w-1/3 bg-custom-gray lg:rounded-md pt-40 lg:mt-16"
       >
         <Title />
         <div className="px-10 mt-10 w-full">
@@ -101,6 +105,24 @@ function Register() {
         </div>
 
         <div className="px-10 mt-10 w-full">
+          <label htmlFor="role" className="text-white">
+            Role
+          </label>
+          <br />
+          <select
+            {...register("role")}
+            className="outline-none bg-custom-gray text-white border-b-2 border-b-white py-2 w-full"
+          >
+            <option value="">Select Role</option>
+            <option value="coder">Coder</option>
+            <option value="designer">Designer</option>
+          </select>
+          {errors.role && (
+            <span className="text-red-500">Role is required</span>
+          )}
+        </div>
+
+        <div className="px-10 mt-10 w-full">
           <label htmlFor="birth_date" className="text-white">
             Birth Date
           </label>
@@ -138,12 +160,13 @@ function Register() {
         <div className="px-10 lg:mt-10 mb-5 w-full">
           <input
             type="submit"
-            value="Login"
+            value="Register"
             className="w-full rounded-md py-2 hover:opacity-70 cursor-pointer"
           />
         </div>
       </form>
       <LoginBox />
+      <ToastContainer />
     </div>
   );
 }

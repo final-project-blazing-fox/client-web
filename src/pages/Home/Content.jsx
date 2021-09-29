@@ -3,11 +3,21 @@ import SearchBox from "../../components/SearchBox";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Title from "../../components/Title";
+import { injectStyle } from "react-toastify/dist/inject-style";
 import { ToastContainer, toast } from "react-toastify";
+
+// CALL IT ONCE IN YOUR APP
+if (typeof window !== "undefined") {
+  injectStyle();
+}
+
+const baseUrl = "https://blazing-matching-service.herokuapp.com";
+const userUrl = "https://final-project-user-profile.herokuapp.com";
 
 function Content() {
   const [users, setUsers] = useState([]);
   const [likes, setLikes] = useState([]);
+  const user = JSON.parse(localStorage.user);
 
   const handleLike = async (id) => {
     setLikes([...likes, id]);
@@ -17,30 +27,32 @@ function Content() {
     toast(`You are matched and now can chat with ${name}!`);
 
   useEffect(() => {
+    localStorage.setItem("likes", []);
+    if (!localStorage.likes) {
+      return;
+    }
     return () => {
-      console.log(localStorage.likes.split(","));
       return axios({
-        url: `https://blazing-matching-service.herokuapp.com/likes/1`,
+        url: `${baseUrl}/likes/${user.id}`,
         method: "PATCH",
         data: {
-          likes: localStorage.likes.split(",").map((like) => parseInt(like)),
+          likes:
+            localStorage.likes &&
+            localStorage.likes.split(",").map((like) => parseInt(like)),
         },
         headers: {
           "Content-Type": "application/json",
-          access_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
+          access_token: user.access_token,
         },
       }).then(() => {
         return axios
-          .get(`http://blazing-matching-service.herokuapp.com/matches/1`, {
+          .get(`${baseUrl}/matches/${user.id}`, {
             method: "GET",
             headers: {
-              access_token:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
+              access_token: user.acccess_token,
             },
           })
           .then((results) => {
-            console.log(results.data.body);
             localStorage.setItem("matches", results.data.body.matches);
           });
       });
@@ -53,21 +65,23 @@ function Content() {
 
   useEffect(() => {
     axios
-      .get("https://final-project-user-profile.herokuapp.com/user", {
+      .get(`${userUrl}/user`, {
         method: "GET",
         headers: {
-          access_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
+          access_token: user.access_token,
         },
       })
       .then((results) => {
-        setUsers(results.data);
+        setUsers(
+          results.data.filter(
+            (user) => user.id !== JSON.parse(localStorage.user).id
+          )
+        );
         axios
-          .get(`http://blazing-matching-service.herokuapp.com/matches/1`, {
+          .get(`${baseUrl}/matches/${user.id}`, {
             method: "GET",
             headers: {
-              access_token:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbF9uYW1lIjoiTW9oYW1tYWQgSWRoYW0iLCJlbWFpbCI6Im1vaGFtbWFkaWRoYW0xNEBnbWFpbC5jb20iLCJpc19wcmVtaXVtIjp0cnVlLCJpYXQiOjE2MzI4MjQwMDF9.PkXy_5UOWEd8mcdcoJ8kPRmz6fzeLViVkY6THcoGw7Q",
+              access_token: user.access_token,
             },
           })
           .then((matches) => {
@@ -84,7 +98,7 @@ function Content() {
               localStorage.setItem("matches", matches.data.body.matches);
             } else {
               matches.data.body.matches.forEach((matchId) => {
-                console.log(matchId);
+                // console.log(matchId)
                 let matchedUser = results.data.filter(
                   (user) => +user.id === +matchId
                 )[0];
@@ -122,6 +136,7 @@ function Content() {
               social_media_link={user.social_media_link}
               id={user.id}
               onLike={handleLike}
+              isPremium={JSON.parse(localStorage.user).is_premium}
             />
           );
         })}

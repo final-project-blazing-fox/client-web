@@ -1,8 +1,14 @@
 import { FaCompass, FaCog } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Menu({ className }) {
+  const history = useHistory();
+  const logoutHandler = () => {
+    localStorage.clear();
+    history.push("/login");
+  };
+
   return (
     <div className={`${className} self-start`}>
       <Link
@@ -19,7 +25,10 @@ function Menu({ className }) {
         <FaCog />
         <span>Settings</span>
       </Link>
-      <button className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100">
+      <button
+        onClick={logoutHandler}
+        className="flex text-white opacity-50 self-start mt-3 items-center gap-3 cursor-pointer hover:opacity-100"
+      >
         <ImExit />
         Log out
       </button>
