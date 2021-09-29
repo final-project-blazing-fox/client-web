@@ -30,6 +30,7 @@ function Login() {
       .then(({ data }) => {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("uid", data.id);
+        localStorage.setItem("matches", 0);
         setUser(data);
       })
       .catch((error) => {
