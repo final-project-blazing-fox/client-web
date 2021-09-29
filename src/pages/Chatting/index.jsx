@@ -1,14 +1,14 @@
 import Container from "../../components/Container";
 import Sidebar from "../../components/Sidebar";
-import Content from "./Content";
+import Chatting from "./Chatting";
 
-function Home() {
+function index() {
   return (
     <Container>
       <Sidebar />
-      <Content />
+      <Chatting />
     </Container>
   );
 }
 
-export default Home;
+export default index;
