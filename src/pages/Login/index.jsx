@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
-
 import Title from "../../components/Sidebar/Title";
 import Register from "./RegisterBox";
 import validateEmail from "../../utils/validateEmail";
@@ -27,7 +28,7 @@ function Login() {
   const history = useHistory();
 
   const db = firebase.firestore();
-  const [userFirebaseCheck, setUserFirebaseCheck] = useState(false);
+  // const [userFirebaseCheck, setUserFirebaseCheck] = useState(false);
   const [user, setUser] = useState({});
 
   const onSubmit = async (inputs) => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Title from "../../components/Title";
 import Image from "../../components/Image";
 import axios from "axios";
@@ -22,6 +23,21 @@ function Settings() {
       ...userLocal,
       birth_date: userLocal.birth_date.slice(0, 10),
     });
+  }, []);
+
+  useEffect(() => {
+    if (userLocal) {
+      axios({
+        url: `https://final-project-user-profile.herokuapp.com/user/${userLocal.id}`,
+        method: "GET",
+        headers: {
+          access_token: userLocal.access_token,
+        },
+      }).then(({ data }) => {
+        localStorage.removeItem("user");
+        localStorage.setItem("user", JSON.stringify(data));
+      });
+    }
   }, []);
 
   const handleSubmitFile = async (e) => {
