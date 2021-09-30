@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Card from "../../components/Card";
 import SearchBox from "../../components/SearchBox";
 import { useEffect, useState } from "react";
@@ -25,6 +26,21 @@ function Content() {
 
   const notify = (name) =>
     toast(`You are matched and now can chat with ${name}!`);
+
+  useEffect(() => {
+    if (user.id) {
+      axios({
+        url: `https://final-project-user-profile.herokuapp.com/user/${user.id}`,
+        method: "GET",
+        headers: {
+          access_token: user.access_token,
+        },
+      }).then(({ data }) => {
+        localStorage.removeItem("user");
+        localStorage.setItem("user", JSON.stringify(data));
+      });
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("likes", []);

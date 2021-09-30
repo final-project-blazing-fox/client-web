@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { button } from "react-dom";
 import { Redirect } from "react-router";
 
 function PaymentSuccess() {
